@@ -1,2 +1,8 @@
 language: ruby
 rvm: '2.5.0'
+
+# safelist
+branches:
+  only:
+    - master
+    - ci-travis-aws
