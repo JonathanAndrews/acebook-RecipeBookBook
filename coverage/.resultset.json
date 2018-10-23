@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/models/user.rb": [
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/models/user.rb": [
         1,
         null,
         null,
@@ -9,33 +9,7 @@
         null,
         null
       ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/models/application_record.rb": [
-        null,
-        null,
-        1,
-        1,
-        null
-      ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/helpers/application_helper.rb": [
-        null,
-        null,
-        1,
-        null
-      ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/helpers/user_helper.rb": [
-        1,
-        null,
-        null,
-        null,
-        null
-      ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/helpers/welcome_helper.rb": [
-        1,
-        null,
-        null
-      ],
-
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/controllers/posts_controller.rb": [
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/models/application_record.rb": [
         null,
         null,
         1,
@@ -46,11 +20,9 @@
         null,
         null,
         1,
-        3,
-        3,
-        3,
-        null,
-        null,
+        null
+      ],
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/helpers/user_helper.rb": [
         1,
         null,
         null,
@@ -61,56 +33,80 @@
         1,
         null
       ],
-
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/controllers/application_controller.rb": [
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/controllers/posts_controller.rb": [
         null,
         null,
         1,
         1,
+        2,
+        null,
+        null,
+        1,
+        3,
+        3,
+        3,
+        null,
+        null,
+        1,
+        3,
+        null,
+        null,
+        1,
+        null,
+        1,
+        3,
         null,
         null
       ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/controllers/user_controller.rb": [
-        1,
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/controllers/application_controller.rb": [
         null,
         null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/controllers/welcome_controller.rb": [
         1,
         1,
         null,
-        null
-      ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/mailers/user_mailer.rb": [
         1,
-        null,
-        null,
+        0,
         null,
         null,
         null
       ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/mailers/application_mailer.rb": [
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/controllers/user_controller.rb": [
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/mailers/user_mailer.rb": [
+        1,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/mailers/application_mailer.rb": [
         null,
         null,
         1,
@@ -118,31 +114,25 @@
         1,
         null
       ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/models/post.rb": [
-
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/models/post.rb": [
         null,
         null,
         1,
         null
       ],
-
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/channels/application_cable/channel.rb": [
-
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/channels/application_cable/channel.rb": [
         null,
         null,
         0,
         0,
         0,
-
         0
       ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/channels/application_cable/connection.rb": [
-
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/channels/application_cable/connection.rb": [
         null,
         null,
         0,
-        null,
-        null,
+        0,
         0,
         0
       ],
@@ -157,26 +147,8 @@
         null,
         0,
         0
-      ],
-
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/jobs/application_job.rb": [
-
-        null,
-        null,
-        0,
-        0
-      ],
-      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/mailers/user_mailer.rb": [
-        0,
-        null,
-        null,
-        null,
-        null,
-        0
       ]
     },
-
-    "timestamp": 1540303424
-
+    "timestamp": 1540309135
   }
 }
