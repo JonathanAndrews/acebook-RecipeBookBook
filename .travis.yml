@@ -1,6 +1,9 @@
 language: ruby
 rvm: '2.5.0'
 
+before_script:
+  - rake db:migrate
+
 # safelist
 # branches:
 #   only:
