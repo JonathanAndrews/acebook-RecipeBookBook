@@ -31,14 +31,18 @@
       ],
       "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/helpers/welcome_helper.rb": [
         1,
+        null,
         null
       ],
+
       "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/controllers/posts_controller.rb": [
         null,
         null,
         1,
         1,
-        2,
+        null
+      ],
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/helpers/application_helper.rb": [
         null,
         null,
         1,
@@ -48,16 +52,16 @@
         null,
         null,
         1,
-        3,
         null,
         null,
-        1,
-        null,
-        1,
-        3,
         null,
         null
       ],
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/helpers/welcome_helper.rb": [
+        1,
+        null
+      ],
+
       "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/controllers/application_controller.rb": [
         null,
         null,
@@ -115,34 +119,64 @@
         null
       ],
       "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/models/post.rb": [
+
         null,
         null,
         1,
         null
       ],
+
       "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/channels/application_cable/channel.rb": [
+
         null,
         null,
         0,
         0,
         0,
+
         0
       ],
       "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/channels/application_cable/connection.rb": [
+
         null,
         null,
+        0,
+        null,
+        null,
+        0,
+        0
+      ],
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/controllers/welcome_controller.rb": [
         0,
         0,
         0,
         0
       ],
-      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/jobs/application_job.rb": [
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/jobs/application_job.rb": [
         null,
         null,
         0,
         0
+      ],
+
+      "/Users/jamie/Documents/Makers/week8/acebook-RecipeBookBook/app/jobs/application_job.rb": [
+
+        null,
+        null,
+        0,
+        0
+      ],
+      "/Users/jonathanandrews/Projects/Group_Projects/Acebook/acebook-RecipeBookBook/app/mailers/user_mailer.rb": [
+        0,
+        null,
+        null,
+        null,
+        null,
+        0
       ]
     },
+
     "timestamp": 1540303424
+
   }
 }
