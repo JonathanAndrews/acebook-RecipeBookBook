@@ -46,12 +46,30 @@ RSpec.describe PostsController, type: :controller do
       )
     end
 
-    # it 'can edit a post' do
-    #   post :create, params: { post: { message: 'Hello, world!' } }
-    #   a = Post.find_by(message: 'Hello, world!')
-    #   id = a.id
-    #   patch :update, params: { post: {id: id, message: 'Hello, Aliens!' } }
-    #   expect(Post.find_by(message: 'Hello, Aliens!')).to be
-    # end
+    context 'within 10 minutes of creation' do
+      it 'can edit a post' do
+        post :create, params: { post: { message: 'Hello, world!' } }
+        newPost = Post.find_by(message: 'Hello, world!')
+        newPostID = newPost.id
+        newMessage = 'Hello, Aliens!'
+        patch :update, params: { post: { message: newMessage }, id: newPostID }
+        updatedPost = Post.find_by(message: newMessage)
+        expect(updatedPost.message).to eq(newMessage)
+        expect(updatedPost.id).to eq(newPostID)
+      end
+    end
+    
+    context 'after 10 minutes from creation' do
+      it 'cannot edit a post' do
+        post :create, params: { post: { message: 'Hello, world!' } }
+        newPost = Post.find_by(message: 'Hello, world!')
+        newPostID = newPost.id
+        newMessage = 'Hello, Aliens!'
+        patch :update, params: { post: { message: newMessage }, id: newPostID }
+        updatedPost = Post.find_by(message: newMessage)
+        # expect(updatedPost.message).to eq(newMessage)
+        # expect(updatedPost.id).to eq(newPostID)
+      end
+    end
   end
 end
