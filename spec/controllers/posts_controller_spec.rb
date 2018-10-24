@@ -4,11 +4,9 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
-  before(:all) do
-    @user = build(:user)
-  end
 
-  before do
+  before(:each) do
+    @user = build(:user)
     @user.confirm
     sign_in @user
   end
