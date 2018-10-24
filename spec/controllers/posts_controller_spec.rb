@@ -4,7 +4,6 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
-
   before(:each) do
     @user = build(:user)
     @user.confirm
@@ -39,10 +38,10 @@ RSpec.describe PostsController, type: :controller do
 
   describe 'GET /:id/edit' do
     it 'routes /posts/1/edit to posts#edit' do
-      expect(get: "/posts/1/edit").to route_to(
-        controller: "posts",
-        action: "edit",
-        id: "1"
+      expect(get: '/posts/1/edit').to route_to(
+        controller: 'posts',
+        action: 'edit',
+        id: '1'
       )
     end
 

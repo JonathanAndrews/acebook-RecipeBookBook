@@ -11,6 +11,7 @@ RSpec.feature 'Logout', type: :feature do
     fill_in 'user_password', with: 'blabla'
     click_button 'Log in'
     click_link 'Logout'
-    expect(page).to have_content('You need to sign in or sign up before continuing.')
+    expect(page).to have_content(
+      'You need to sign in or sign up before continuing.')
   end
 end
