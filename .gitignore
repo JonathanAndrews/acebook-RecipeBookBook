@@ -24,6 +24,6 @@
 
 .env
 
-coverage
+coverage/
 
 config/application.yml
