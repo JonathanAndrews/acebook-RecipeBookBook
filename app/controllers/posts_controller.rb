@@ -24,11 +24,13 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    if @post.update(post_params)
-      redirect_to @post
-    else
-      render 'edit'
-    end
+    raise("Sorry! Too late to edit, be snappier next time") unless
+      post_created_within_ten_minutes?
+    @post.update(post_params) ? (redirect_to @post) : (render 'edit')
+  end
+
+  def post_created_within_ten_minutes?
+    Time.current - @post.created_at <= 600
   end
 
   private

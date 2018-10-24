@@ -58,17 +58,25 @@ RSpec.describe PostsController, type: :controller do
         expect(updatedPost.id).to eq(newPostID)
       end
     end
-    
+
     context 'after 10 minutes from creation' do
+      # before (:each) do
+      #   @future_time = Time.now + 601
+      #   # allow(Time).to receive(:now).and_return(@future_time)
+      # end
       it 'cannot edit a post' do
+        @future_time = Time.now + 601
         post :create, params: { post: { message: 'Hello, world!' } }
+
+        allow(Time).to receive(:now).and_return(@future_time)
+
         newPost = Post.find_by(message: 'Hello, world!')
         newPostID = newPost.id
         newMessage = 'Hello, Aliens!'
-        patch :update, params: { post: { message: newMessage }, id: newPostID }
-        updatedPost = Post.find_by(message: newMessage)
-        # expect(updatedPost.message).to eq(newMessage)
-        # expect(updatedPost.id).to eq(newPostID)
+        expect{ patch :update, params: { post: { message: newMessage },
+        id: newPostID } }.to raise_error(
+          "Sorry! Too late to edit, be snappier next time"
+        )
       end
     end
   end
