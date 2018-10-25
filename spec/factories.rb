@@ -1,7 +1,8 @@
-FactoryBot.define do
+# frozen_string_literal: true
 
- factory :user do
-   email "joe3@gmail.com"
-   password "blabla"
- end
+FactoryBot.define do
+  factory :user do
+    email 'joe3@gmail.com'
+    password 'blabla'
+  end
 end

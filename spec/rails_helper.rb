@@ -11,7 +11,6 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'support/factory_bot'
 
-
 ActiveRecord::Migration.maintain_test_schema!
 # Add additional requires below this line. Rails is not loaded until this point!
 
