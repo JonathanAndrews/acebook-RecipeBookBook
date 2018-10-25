@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'helpers/post_helper_spec.rb'
 
 RSpec.describe PostsController, type: :controller do
 
@@ -22,14 +23,12 @@ RSpec.describe PostsController, type: :controller do
 
   describe 'POST /' do
     it 'responds with 200' do
-      post :create, params: { post: { message: 'Hello, world!', user_id: @user.id } }
+      create_post('Hello, world!')
       expect(response).to redirect_to(posts_url)
     end
 
     it 'creates a post' do
-      # @request.env['devise.mapping'] = Devise.mappings[:user]
-      # sign_in users(:testuser)
-      post :create, params: { post: { message: 'Hello, world!', user_id: @user.id}  }
+      create_post('Hello, world!')
       expect(Post.find_by(message: 'Hello, world!')).to be
     end
   end
@@ -52,7 +51,7 @@ RSpec.describe PostsController, type: :controller do
 
     context 'within 10 minutes of creation' do
       it 'can edit own post' do
-        post :create, params: { post: { message: 'Hello, world!', user_id: @user.id } }
+        create_post('Hello, world!')
         new_post = Post.find_by(message: 'Hello, world!')
         new_post_id = new_post.id
         new_message = 'Hello, Aliens!'
@@ -63,15 +62,15 @@ RSpec.describe PostsController, type: :controller do
       end
 
       it "cannot edit another user's post" do
-        post :create, params: { post: { message: 'Post by user 1', user_id: @user.id } }
-        new_post = Post.find_by(message: 'Post by user 1')
+        create_post('Hello, world!')
+        new_post = Post.find_by(message: 'Hello, world!')
         new_post_id = new_post.id
         sign_out @user
         sign_in @user_2
         new_message = 'Hello, Aliens!'
-        expect { 
-          patch :update, 
-          params: { post: { message: new_message }, id: new_post_id } 
+        expect {
+          patch :update,
+          params: { post: { message: new_message }, id: new_post_id }
         }.to raise_error("Cannot edit another user's post")
       end
     end
@@ -79,7 +78,7 @@ RSpec.describe PostsController, type: :controller do
     context 'after 10 minutes from creation' do
       it 'cannot edit a post' do
         @future_time = Time.now + 601
-        post :create, params: { post: { message: 'Hello, world!', user_id: @user.id } }
+        create_post('Hello, world!')
 
         allow(Time).to receive(:now).and_return(@future_time)
 
@@ -104,7 +103,7 @@ RSpec.describe PostsController, type: :controller do
     end
 
     it 'should delete own post' do
-      post :create, params: { post: { message: 'Post by user 1 to be deleted', user_id: @user.id } }
+      create_post('Post by user 1 to be deleted')
       new_post = Post.find_by(message: 'Post by user 1 to be deleted')
       new_post_id = new_post.id
       delete :destroy, params: { id: new_post_id }
@@ -112,7 +111,7 @@ RSpec.describe PostsController, type: :controller do
     end
 
     it "should not delete another user's post" do
-      post :create, params: { post: { message: 'Post by user 1 to be deleted', user_id: @user.id } }
+      create_post('Post by user 1 to be deleted')
       new_post = Post.find_by(message: 'Post by user 1 to be deleted')
       new_post_id = new_post.id
       sign_out @user

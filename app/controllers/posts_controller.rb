@@ -40,6 +40,7 @@ class PostsController < ApplicationController
       post_created_by_current_user?
 
     @post.destroy
+    redirect_to posts_url, notice: "Delete success"
   end
 
   private
