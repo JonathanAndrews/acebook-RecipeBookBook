@@ -12,6 +12,13 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe UserHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+
+def user_sign_in
+  @user = build(:user)
+  @user.confirm
+  visit '/users/sign_in'
+  fill_in 'user_email', with: @user.email
+  fill_in 'user_password', with: @user.password
+  click_button 'Log in'
 end
