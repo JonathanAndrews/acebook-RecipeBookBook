@@ -7,8 +7,6 @@ RSpec.describe PostsController, type: :controller do
 
   before(:each) do
     @user = build(:user)
-    puts "11111111111111111111111111111111111111111111111111111111111"
-    puts @user.id
     @user.confirm
     sign_in @user
   end
@@ -22,7 +20,7 @@ RSpec.describe PostsController, type: :controller do
 
   describe 'POST /' do
     it 'responds with 200' do
-      post :create, params: { post: { message: 'Hello, world!' } }
+      post :create, params: { post: { message: 'Hello, world!', user_id: @user.id } }
       expect(response).to redirect_to(posts_url)
     end
 
@@ -52,7 +50,7 @@ RSpec.describe PostsController, type: :controller do
 
     context 'within 10 minutes of creation' do
       it 'can edit a post' do
-        post :create, params: { post: { message: 'Hello, world!' } }
+        post :create, params: { post: { message: 'Hello, world!', user_id: @user.id } }
         newPost = Post.find_by(message: 'Hello, world!')
         newPostID = newPost.id
         newMessage = 'Hello, Aliens!'
@@ -70,7 +68,7 @@ RSpec.describe PostsController, type: :controller do
       # end
       it 'cannot edit a post' do
         @future_time = Time.now + 601
-        post :create, params: { post: { message: 'Hello, world!' } }
+        post :create, params: { post: { message: 'Hello, world!', user_id: @user.id } }
 
         allow(Time).to receive(:now).and_return(@future_time)
 
