@@ -7,9 +7,9 @@ RSpec.feature 'Sign In', type: :feature do
     @user = build(:user)
     @user.confirm
     visit '/users/sign_in'
-    fill_in 'user_email', with: 'joe3@gmail.com'
-    fill_in 'user_password', with: 'blabla'
+    fill_in 'user_email', with: @user.email
+    fill_in 'user_password', with: @user.password
     click_button 'Log in'
-    expect(page).to have_content('Logged in as joe3@gmail.com')
+    expect(page).to have_content("Logged in as #{@user.email}")
   end
 end

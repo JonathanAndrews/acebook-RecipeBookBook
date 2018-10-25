@@ -7,8 +7,8 @@ RSpec.feature 'Logout', type: :feature do
     @user = build(:user)
     @user.confirm
     visit '/users/sign_in'
-    fill_in 'user_email', with: 'joe3@gmail.com'
-    fill_in 'user_password', with: 'blabla'
+    fill_in 'user_email', with: @user.email
+    fill_in 'user_password', with: @user.password
     click_button 'Log in'
     click_link 'Logout'
     expect(page).to have_content(
