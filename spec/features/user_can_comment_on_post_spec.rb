@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Comments', type: :feature do
+RSpec.feature 'Comments feature test', type: :feature do
   scenario 'Can fill in form' do
     @user = build(:user)
     @user.confirm

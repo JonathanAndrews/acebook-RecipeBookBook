@@ -10,4 +10,9 @@ FactoryBot.define do
    email "joe3@gmail.com"
    password "blabla"
  end
+
+  factory :post do
+    message { 'helloooooooo' }
+    id { 1 }
+  end
 end

@@ -1,22 +1,15 @@
 class CommentsController < ApplicationController
-    
-    def show
-        @comment = Comment.find(params[:id])
-    end 
 
-    def new
-        @comment = Comment.new
-    end
+  def create 
+    post_id = params[:post_id]
+    @post = Post.find(post_id)
+    @comment = @post.comments.create(comment_params.merge(user_id: current_user.id, post_id: post_id ))
+    redirect_to posts_url
+  end 
 
-    def create 
-        @post = Post.find(params[:post_id])
-        @comment = @post.comments.create(comment_params.merge(user_id: current_user.id))
-        redirect_to posts_url
-    end 
+  private
 
-    private
-
-    def comment_params
-      params.require(:comment).permit(:body)
-    end
+  def comment_params
+    params.require(:comment).permit(:body, :post_id, :user_id)
+  end
 end
