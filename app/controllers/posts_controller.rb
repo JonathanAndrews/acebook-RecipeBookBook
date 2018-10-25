@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+# usual order of actions is:
+# index, show, new, edit, create, update and destroy
 
 class PostsController < ApplicationController
   def index
@@ -30,6 +32,14 @@ class PostsController < ApplicationController
       post_created_within_ten_minutes?
 
     @post.update(post_params) ? (redirect_to @post) : (render 'edit')
+  end
+
+  def destroy
+    @post = Post.find(params[:id])
+    raise("Cannot delete another user's post") unless
+      post_created_by_current_user?
+
+    @post.destroy
   end
 
   private

@@ -9,6 +9,8 @@ RSpec.describe PostsController, type: :controller do
     @user = build(:user)
     @user.confirm
     sign_in @user
+    @user_2 = build(:user_2)
+    @user_2.confirm
   end
 
   describe 'GET posts/new ' do
@@ -40,11 +42,6 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe 'GET /posts/:id/edit' do
-    before(:each) do
-      @user_2 = build(:user_2)
-      @user_2.confirm
-    end
-
     it 'routes /posts/1/edit to posts#edit' do
       expect(get: "/posts/1/edit").to route_to(
         controller: "posts",
@@ -106,12 +103,23 @@ RSpec.describe PostsController, type: :controller do
       )
     end
 
-    it 'should delete a post' do
+    it 'should delete own post' do
       post :create, params: { post: { message: 'Post by user 1 to be deleted', user_id: @user.id } }
       new_post = Post.find_by(message: 'Post by user 1 to be deleted')
       new_post_id = new_post.id
       delete :destroy, params: { id: new_post_id }
       expect(Post.find_by(id: new_post_id)).to be_nil
+    end
+
+    it "should not delete another user's post" do
+      post :create, params: { post: { message: 'Post by user 1 to be deleted', user_id: @user.id } }
+      new_post = Post.find_by(message: 'Post by user 1 to be deleted')
+      new_post_id = new_post.id
+      sign_out @user
+      sign_in @user_2
+      expect { delete :destroy, params: { id: new_post_id } }.to raise_error(
+        "Cannot delete another user's post"
+      )
     end
   end
 end
