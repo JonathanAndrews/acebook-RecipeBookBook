@@ -7,6 +7,8 @@ RSpec.describe PostsController, type: :controller do
 
   before(:each) do
     @user = build(:user)
+    puts "11111111111111111111111111111111111111111111111111111111111"
+    puts @user.id
     @user.confirm
     sign_in @user
   end
@@ -25,7 +27,9 @@ RSpec.describe PostsController, type: :controller do
     end
 
     it 'creates a post' do
-      post :create, params: { post: { message: 'Hello, world!' } }
+      # @request.env['devise.mapping'] = Devise.mappings[:user]
+      # sign_in users(:testuser)
+      post :create, params: { post: { message: 'Hello, world!', user_id: @user.id}  }
       expect(Post.find_by(message: 'Hello, world!')).to be
     end
   end
