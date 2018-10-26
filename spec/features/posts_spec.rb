@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Timeline', type: :feature do
+RSpec.feature 'Feature Tests - Posts', type: :feature do
 
   scenario 'Can submit posts and view them' do
     visit '/'
@@ -27,7 +27,7 @@ RSpec.feature 'Timeline', type: :feature do
     expect(page).to have_content('Goodbye world')
   end
 
-  scenario 'Can delete posts' do
+  scenario 'Can delete posts and see flash confirmation' do
     visit '/'
     user_sign_in
     visit '/posts'
@@ -36,6 +36,7 @@ RSpec.feature 'Timeline', type: :feature do
     click_button 'Submit'
     click_link 'Delete'
     expect(page).to_not have_content('Goodbye world')
+    expect(page).to have_content('Delete successful')
   end
 
 end
