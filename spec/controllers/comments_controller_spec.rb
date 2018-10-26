@@ -14,6 +14,6 @@ RSpec.describe CommentsController, type: :controller do
     it 'redirects to /posts' do
       post :create, params: { comment: { body: 'Hello, potato!' }, post_id: @post.id  }
       expect(response).to redirect_to(posts_url)
-    end 
+    end
   end
 end

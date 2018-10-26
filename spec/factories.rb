@@ -16,9 +16,11 @@ FactoryBot.define do
     email { 'fred@gmail.com' }
     password { 'secure_Pa$$word_1!' }
     id { 2 }
+  end
 
   factory :post do
     message { 'helloooooooo' }
     id { 1 }
+    user_id { 1 }
   end
 end

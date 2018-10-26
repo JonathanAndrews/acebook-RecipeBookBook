@@ -43,7 +43,7 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'database_cleaner'
 
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails' 
 
   gem 'rspec-rails', '~> 3.5'
   gem 'selenium-webdriver'
