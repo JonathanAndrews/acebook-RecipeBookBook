@@ -3,8 +3,8 @@
   <%= link_to 'Add comment', post_path(post) %>
   <%= link_to 'Edit', edit_post_path(post) %>
     <% post.comments.each do |comment| %>
-  <p>
-    <strong>Comment:</strong>
+  <p id="<%= comment.id%>">
+    <strong><%= comment.user.email %></strong>
     <%= comment.body %>
   </p>
 <% end %>
