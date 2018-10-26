@@ -3,15 +3,15 @@
 require 'rails_helper'
 
 RSpec.feature 'Feature Tests - Posts', type: :feature do
-
   scenario 'Can submit posts and view them' do
     visit '/'
-    user_sign_in
+    user = user_sign_in
     visit '/posts'
     click_link 'New post'
     fill_in 'Message', with: 'Hello, world!'
     click_button 'Submit'
     expect(page).to have_content('Hello, world!')
+    expect(page.find_by_id('post_1_author')).to have_content(user.email)
   end
 
   scenario 'Can submit posts and edit them' do
@@ -53,22 +53,17 @@ RSpec.feature 'Feature Tests - Posts', type: :feature do
     expect(page).to have_content('Sorry! Too late to edit, be snappier next time')
   end
 
-  # scenario "Cannot update other user's posts (flash confirmation)" do
-  #   visit '/'
-  #   user_sign_in
-  #   visit '/posts'
-  #   click_link 'New post'
-  #   fill_in 'Message', with: 'Hello, world!'
-  #   click_button 'Submit'
-  #   click_link 'Logout'
-  #   visit '/'
-  #   user2_sign_in
-  #   visit '/posts'
-  #   click_link 'Edit'
-  #   fill_in 'Message', with: "Goodbye world"
-  #   click_button 'Submit'
-  #   expect(page).to have_content('Hello, world')
-  #   expect(page).to have_content("Cannot edit another user's post")
-  # end
-
+  scenario "Cannot update other user's posts" do
+    visit '/'
+    user_sign_in
+    visit '/posts'
+    click_link 'New post'
+    fill_in 'Message', with: 'Hello, world!'
+    click_button 'Submit'
+    click_link 'Logout'
+    visit '/'
+    user2_sign_in
+    visit '/posts'
+    expect(page.find_by_id('post_1')).to have_no_link('Edit')
+  end
 end

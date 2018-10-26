@@ -1,10 +1,17 @@
-<% @posts.each do |post| %>
-  <p><%= post.message %></p>
-  <%= link_to 'Edit', edit_post_path(post) %>
-  <%= link_to 'Delete', post_path(post), :method => :delete,
-                                          data: { confirm: "Are you sure?" } %>
-<% end %>
-
 <%= link_to new_post_path do %>
   New post
+<% end %>
+<br>
+<br>
+
+<% @posts.each do |post| %>
+  <div id="post_<%=post.id%>">
+    <p><%= post.message %></p>
+    <div id="post_<%=post.id%>_author"> <%= post.user.email %></div>
+    <% if current_user.id === post.user.id %>
+      <%= link_to 'Edit', edit_post_path(post) %>
+    <% end %>
+    <%= link_to 'Delete', post_path(post), :method => :delete,
+                                            data: { confirm: "Are you sure?" } %>
+  </div>
 <% end %>
