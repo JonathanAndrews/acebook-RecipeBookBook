@@ -18,6 +18,6 @@ RSpec.feature 'Comments feature test', type: :feature do
     fill_in 'comment[body]', with: 'Hello, Aliens'
     click_button 'Create Comment'
     expect(current_path).to eq('/posts')
-    expect(page.find_by_id(@user.id)).to have_content(@user.email.to_s)
+    expect(page.find_by_id('1')).to have_content(@user.email.to_s)
   end
 end
