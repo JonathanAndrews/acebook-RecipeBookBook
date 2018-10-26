@@ -17,6 +17,11 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    if !post_created_within_ten_minutes?
+      redirect_to posts_url, alert: 'Sorry! Too late to edit, be snappier next time'
+    else
+      @post
+    end
   end
 
   def create
@@ -26,11 +31,8 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    raise("Cannot edit another user's post") unless
+    raise "Cannot edit another user's post" unless
       post_created_by_current_user?
-    raise('Sorry! Too late to edit, be snappier next time') unless
-      post_created_within_ten_minutes?
-
     @post.update(post_params) ? (redirect_to @post) : (render 'edit')
   end
 

@@ -39,4 +39,36 @@ RSpec.feature 'Feature Tests - Posts', type: :feature do
     expect(page).to have_content('Delete successful')
   end
 
+  scenario 'Cannot edit own post after 10 minutes' do
+    visit '/'
+    user_sign_in
+    visit '/posts'
+    click_link 'New post'
+    fill_in 'Message', with: 'Hello, world!'
+    click_button 'Submit'
+    @future_time = Time.now + 601
+    allow(Time).to receive(:now).and_return(@future_time)
+    click_link 'Edit'
+    expect(current_path).to eq('/posts')
+    expect(page).to have_content('Sorry! Too late to edit, be snappier next time')
+  end
+
+  # scenario "Cannot update other user's posts (flash confirmation)" do
+  #   visit '/'
+  #   user_sign_in
+  #   visit '/posts'
+  #   click_link 'New post'
+  #   fill_in 'Message', with: 'Hello, world!'
+  #   click_button 'Submit'
+  #   click_link 'Logout'
+  #   visit '/'
+  #   user2_sign_in
+  #   visit '/posts'
+  #   click_link 'Edit'
+  #   fill_in 'Message', with: "Goodbye world"
+  #   click_button 'Submit'
+  #   expect(page).to have_content('Hello, world')
+  #   expect(page).to have_content("Cannot edit another user's post")
+  # end
+
 end
