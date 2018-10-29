@@ -35,7 +35,7 @@ RSpec.describe CommentsController, type: :controller do
       expect(Comment.find_by(id: comment_id)).to be_nil
     end
   end
-  
+
   describe 'GET /posts/:id/comments/:id/edit' do
     it 'routes posts/1/comments/1/edit to comments#edit' do
       expect(get: 'posts/1/comments/1/edit').to route_to(

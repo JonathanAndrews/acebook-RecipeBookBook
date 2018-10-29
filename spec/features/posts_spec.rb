@@ -6,10 +6,7 @@ RSpec.feature 'Feature Tests - Posts', type: :feature do
   scenario 'Can submit posts and view them' do
     visit '/'
     user = user_sign_in
-    visit '/posts'
-    click_link 'New post'
-    fill_in 'Message', with: 'Hello, world!'
-    click_button 'Submit'
+    post_hello_world
     expect(page).to have_content('Hello, world!')
     expect(page.find_by_id('post_1_author')).to have_content(user.email)
   end
@@ -17,10 +14,7 @@ RSpec.feature 'Feature Tests - Posts', type: :feature do
   scenario 'Can submit posts and edit them' do
     visit '/'
     user_sign_in
-    visit '/posts'
-    click_link 'New post'
-    fill_in 'Message', with: 'Hello, world!'
-    click_button 'Submit'
+    post_hello_world
     click_link 'Edit'
     fill_in 'Message', with: "Goodbye world"
     click_button 'Submit'
@@ -30,10 +24,7 @@ RSpec.feature 'Feature Tests - Posts', type: :feature do
   scenario 'Can delete posts and see flash confirmation' do
     visit '/'
     user_sign_in
-    visit '/posts'
-    click_link 'New post'
-    fill_in 'Message', with: 'Hello, world!'
-    click_button 'Submit'
+    post_hello_world
     click_link 'Delete'
     expect(page).to_not have_content('Goodbye world')
     expect(page).to have_content('Delete successful')
@@ -42,10 +33,7 @@ RSpec.feature 'Feature Tests - Posts', type: :feature do
   scenario 'Cannot edit own post after 10 minutes' do
     visit '/'
     user_sign_in
-    visit '/posts'
-    click_link 'New post'
-    fill_in 'Message', with: 'Hello, world!'
-    click_button 'Submit'
+    post_hello_world
     @future_time = Time.now + 601
     allow(Time).to receive(:now).and_return(@future_time)
     click_link 'Edit'
@@ -56,10 +44,7 @@ RSpec.feature 'Feature Tests - Posts', type: :feature do
   scenario "Cannot update other user's posts" do
     visit '/'
     user_sign_in
-    visit '/posts'
-    click_link 'New post'
-    fill_in 'Message', with: 'Hello, world!'
-    click_button 'Submit'
+    post_hello_world
     click_link 'Logout'
     visit '/'
     user2_sign_in

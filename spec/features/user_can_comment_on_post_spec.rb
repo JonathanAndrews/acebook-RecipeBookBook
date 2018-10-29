@@ -8,12 +8,9 @@ RSpec.feature 'Comments feature test', type: :feature do
     @user.confirm
     visit '/users/sign_in'
     fill_in 'user_email', with: @user.email
-    fill_in 'user_password', with: @user.password 
+    fill_in 'user_password', with: @user.password
     click_button 'Log in'
-    visit '/posts'
-    click_link 'New post'
-    fill_in 'Message', with: 'Hello, world!'
-    click_button 'Submit'
+    post_hello_world
     click_link 'Add comment'
     fill_in 'comment[body]', with: 'Hello, Aliens'
     click_button 'Create Comment'
