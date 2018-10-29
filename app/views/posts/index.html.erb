@@ -8,10 +8,10 @@
   <p id="comment_<%= comment.id%>">
     <strong><%= comment.user.email %></strong>
     <%= comment.body %>
+    <%= link_to 'Edit Comment', edit_post_comment_path(post.id, comment.id) %>
   </p>
 
 <% end %>
-
 
 
 <% end %>
