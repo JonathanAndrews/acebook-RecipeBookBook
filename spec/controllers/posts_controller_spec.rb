@@ -65,10 +65,9 @@ RSpec.describe PostsController, type: :controller do
         new_post_id = new_post.id
         sign_out @user
         sign_in @user_2
-        new_message = 'Hello, Aliens!'
         expect {
           patch :update,
-          params: { post: { message: new_message }, id: new_post_id }
+          params: { post: { message: 'Hello, Aliens!' }, id: new_post_id }
         }.to raise_error("Cannot edit another user's post")
       end
     end
@@ -77,16 +76,10 @@ RSpec.describe PostsController, type: :controller do
       it 'cannot edit a post' do
         @future_time = Time.now + 601
         create_post('Hello, world!')
-
         allow(Time).to receive(:now).and_return(@future_time)
-
-        newPost = Post.find_by(message: 'Hello, world!')
-        newPostID = newPost.id
-        newMessage = 'Hello, Aliens!'
-        expect{ patch :update, params: { post: { message: newMessage },
-        id: newPostID } }.to raise_error(
-          "Sorry! Too late to edit, be snappier next time"
-        )
+        new_post = Post.find_by(message: 'Hello, world!')
+        get :edit, params: { post: { message: new_post.message}, id: new_post.id }
+        expect(response).to redirect_to(posts_url)
       end
     end
   end

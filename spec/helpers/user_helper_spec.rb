@@ -21,4 +21,15 @@ def user_sign_in
   fill_in 'user_email', with: @user.email
   fill_in 'user_password', with: @user.password
   click_button 'Log in'
+  @user
+end
+
+def user2_sign_in
+  @user = build(:user_2)
+  @user.confirm
+  visit '/users/sign_in'
+  fill_in 'user_email', with: @user.email
+  fill_in 'user_password', with: @user.password
+  click_button 'Log in'
+  @user
 end
