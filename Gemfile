@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'dotenv-rails', groups: [:production]
+gem 'dotenv-rails', groups: [:development, :test, :production], require: 'dotenv/rails-now'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
