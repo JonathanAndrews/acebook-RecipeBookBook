@@ -14,6 +14,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Quickstart
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/06873fca63b8f1abdcda/maintainability)](https://codeclimate.com/github/JonathanAndrews/acebook-RecipeBookBook/maintainability)
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/06873fca63b8f1abdcda/test_coverage)](https://codeclimate.com/github/JonathanAndrews/acebook-RecipeBookBook/test_coverage)
+
+[![Build Status](https://travis-ci.com/JonathanAndrews/acebook-RecipeBookBook.svg?branch=master)](https://travis-ci.com/JonathanAndrews/acebook-RecipeBookBook)
+
 First, clone this repository. Then:
 
 ```bash
