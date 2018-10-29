@@ -51,9 +51,9 @@ class PostsController < ApplicationController
     params.require(:post).permit(:message, :user_id)
   end
 
-  def can_edit_post?
-    post_created_by_current_user? && post_created_within_ten_minutes?
-  end
+  # def can_edit_post?
+  #   post_created_by_current_user? && post_created_within_ten_minutes?
+  # end
 
   def post_created_by_current_user?
     @post.user_id === current_user.id
