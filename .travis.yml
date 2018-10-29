@@ -1,19 +1,22 @@
-env:
-  global:
-    - CC_TEST_REPORTER_ID=fef1ee7028f0c193f614a605f027e6ea71f783884a91cb541e87b2ef7e7425b2
-
 language: ruby
 rvm: '2.5.0'
 
 before_script:
   - RAILS_ENV=test bundle exec rake db:create
   - RAILS_ENV=test bundle exec rake db:migrate
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
 
-scripts:
-  - bundle exec rspec spec
-
-  after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+# safelist
+# branches:
+#   only:
+#     - master
+#     - ci-travis-aws
+#
+# deploy:
+#   provider: elasticbeanstalk
+#   access_key_id: 'Encrypted <access-key-id>='
+#   secret_access_key:
+#     secure: 'Encypted <secret-access-key>='
+#   region: 'us-east-1'
+#   app: 'example-app-name'
+#   env: 'example-app-environment'
+#   bucket_name: 'the-target-S3-bucket'
