@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Post from './Post';
+import NewPostForm from './NewPostForm';
 
 class PostsContainer extends Component {
 
@@ -21,17 +23,30 @@ class PostsContainer extends Component {
     .catch(error => console.log(error))
   }
 
+  addNewPost(message) {
+    axios.post( '/api/v1/posts', { post: {message} })
+    .then(response => {
+        console.log(response)
+        const posts = [ ...this.state.posts, response.data ]
+        this.setState({posts})
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
+
 
   render() {
     return (
-      <div className="Posts-container">
-        {this.state.posts.map( post => {
-          return (
-            <div className="single-post" key={post.id}>
-              <h4>{post.message}</h4>
-            </div>
-          )
-        })}
+      <div>
+        <div><NewPostForm onNewPost={this.addNewPost}/></div>
+        <div className="Posts-container">
+          {this.state.posts.map( post => {
+            return (
+              <Post post={post} key={post.id} />
+            )
+          })}
+        </div>
       </div>
     )
   }
