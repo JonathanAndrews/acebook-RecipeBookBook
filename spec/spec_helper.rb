@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'helpers/web_helpers'
 require 'simplecov'
 # require 'rspec/rails'
 require 'simplecov-console'
