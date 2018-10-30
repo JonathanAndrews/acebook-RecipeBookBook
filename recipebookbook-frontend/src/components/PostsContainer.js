@@ -25,7 +25,13 @@ class PostsContainer extends Component {
   render() {
     return (
       <div className="Posts-container">
-        Posts
+        {this.state.posts.map( post => {
+          return (
+            <div className="single-post" key={post.id}>
+              <h4>{post.message}</h4>
+            </div>
+          )
+        })}
       </div>
     )
   }
