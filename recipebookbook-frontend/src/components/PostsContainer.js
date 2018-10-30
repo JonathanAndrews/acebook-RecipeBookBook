@@ -10,6 +10,7 @@ class PostsContainer extends Component {
     this.state = {
       posts: []
     }
+    this.addNewPost = this.addNewPost.bind(this)
   }
 
   componentDidMount() {
@@ -33,20 +34,29 @@ class PostsContainer extends Component {
     .catch(error => {
         console.log(error)
     })
-}
+  }
+
+  removePost(id) {
+    axios.delete( '/api/v1/posts/' + id )
+    .then(response => {
+        const posts = this.state.posts.filter(
+            post => post.id !== id
+        )
+        this.setState({posts})
+    })
+    .catch(error => console.log(error))
+  }
 
 
   render() {
     return (
-      <div>
-        <div><NewPostForm onNewPost={this.addNewPost}/></div>
-        <div className="Posts-container">
-          {this.state.posts.map( post => {
-            return (
-              <Post post={post} key={post.id} />
+      <div className="Posts-container">
+        {this.state.posts.map( post => {
+          return (
+            <Post post={post} key={post.id} onRemovePost={this.removePost} />
             )
           })}
-        </div>
+          <NewPostForm onNewPost={this.addNewPost}/>
       </div>
     )
   }
