@@ -117,31 +117,47 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   end
 
   describe 'DELETE Posts' do
-    it 'validate route DELETE /posts/:id to posts#destroy' do
-      expect(delete: "/posts/1").to route_to(
-        controller: "posts",
-        action: "destroy",
-        id: "1"
-      )
+    context 'successful delete' do
+      it 'responds with 204' do
+        create_post('Post by user 1 to be deleted')
+        new_post = Post.find_by(message: 'Post by user 1 to be deleted')
+        new_post_id = new_post.id
+        delete :destroy, params: { id: new_post_id }
+        expect(response).to have_http_status(204)
+      end
+      
+      it 'should delete own post' do
+        create_post('Post by user 1 to be deleted')
+        new_post = Post.find_by(message: 'Post by user 1 to be deleted')
+        new_post_id = new_post.id
+        delete :destroy, params: { id: new_post_id }
+        expect(Post.find_by(id: new_post_id)).to be_nil
+      end
     end
 
-    it 'should delete own post' do
-      create_post('Post by user 1 to be deleted')
-      new_post = Post.find_by(message: 'Post by user 1 to be deleted')
-      new_post_id = new_post.id
-      delete :destroy, params: { id: new_post_id }
-      expect(Post.find_by(id: new_post_id)).to be_nil
-    end
+    context 'unsuccessful delete' do
+      it 'responds with 422 trying to delete a non-existant post' do
+        delete :destroy, params: { id: 999 }
+        expect(response).to have_http_status(422)
+      end
 
-    it "should not delete another user's post" do
-      create_post('Post by user 1 to be deleted')
-      new_post = Post.find_by(message: 'Post by user 1 to be deleted')
-      new_post_id = new_post.id
-      sign_out @user
-      sign_in @user_2
-      expect { delete :destroy, params: { id: new_post_id } }.to raise_error(
-        "Cannot delete another user's post"
-      )
+      xit 'line 59 of PostsController#destroy cannot be tested atm' do
+        render json: @post.errors, status: :unprocessable_entity 
+        "also need to test this whole method further"
+      end
+
+
+      it "should not delete another user's post" do
+        create_post('Post by user 1 to be deleted')
+        new_post = Post.find_by(message: 'Post by user 1 to be deleted')
+        new_post_id = new_post.id
+        sign_out @user
+        sign_in @user_2
+        delete :destroy, params: { id: new_post_id }
+        p response.body
+        json = response.body
+        expect(json).to eq("Cannot delete another user's post")
+      end
     end
   end
 end

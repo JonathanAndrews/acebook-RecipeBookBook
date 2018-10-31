@@ -50,12 +50,27 @@ module Api::V1
     end
 
     def destroy
-      @post = Post.find(params[:id])
-      raise("Cannot delete another user's post") unless
-        post_created_by_current_user?
+      begin 
+        @post = Post.find(params[:id])
 
-      @post.destroy
-      redirect_to posts_url, notice: "Delete successful"
+        if post_created_by_current_user? 
+          if @post.destroy 
+            head :no_content, status: :ok
+          else 
+            render json: @post.errors, status: :unprocessable_entity 
+          end
+        else 
+          render json: "Cannot delete another user's post", status: :unprocessable_entity
+        end 
+      rescue ActiveRecord::RecordNotFound
+        render json: "Record not found", status: :unprocessable_entity
+      end
+
+
+#         raise("Cannot delete another user's post") unless
+# post_created_by_current_user?
+      # raise("Cannot delete another user's post") unless
+      #   post_created_by_current_user?
     end
 
     private
