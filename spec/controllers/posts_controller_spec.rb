@@ -36,6 +36,15 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       get :index
       expect(response).to have_http_status(200)
     end
+
+    it 'returns json with post data' do
+      create_post('Hello, World!')
+      get :index
+      json = JSON.parse(response.body)[0]
+      expect(json["id"]).to eq(1)
+      expect(json["message"]).to eq('Hello, World!')
+      expect(json["user_id"]).to eq(1)
+    end
   end
 
   describe 'GET /posts/:id/edit' do
