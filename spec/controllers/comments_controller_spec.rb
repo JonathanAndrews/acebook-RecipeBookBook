@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CommentsController, type: :controller do
+RSpec.describe Api::V1::CommentsController, type: :controller do
   before(:each) do
     @user = build(:user)
     @user.confirm

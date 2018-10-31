@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'helpers/post_helper_spec.rb'
 
-RSpec.describe PostsController, type: :controller do
+RSpec.describe Api::V1::PostsController, type: :controller do
   before(:each) do
     @user = build(:user)
     @user.confirm
