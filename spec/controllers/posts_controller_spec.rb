@@ -12,14 +12,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     @user_2.confirm
   end
 
-  describe 'GET posts/new ' do
-    it 'responds with 200' do
-      get :new
-      expect(response).to have_http_status(200)
-    end
-  end
-
-  describe 'POST /' do
+  describe 'CREATE Post' do
     context 'successful creation' do
       it 'responds with 201' do
         create_post('Hello, world!')
@@ -54,13 +47,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
   end
 
-  describe 'GET /' do
+  describe 'GET INDEX' do
     it 'responds with 200' do
       get :index
       expect(response).to have_http_status(200)
     end
 
-    it 'returns json with post data' do
+    it 'returns json with posts data' do
       create_post('Hello, World!')
       get :index
       json = JSON.parse(response.body)[0]
@@ -70,15 +63,24 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
   end
 
-  describe 'GET /posts/:id/edit' do
-    it 'routes /posts/1/edit to posts#edit' do
-      expect(get: '/posts/1/edit').to route_to(
-        controller: 'posts',
-        action: 'edit',
-        id: '1'
-      )
+  describe 'GET SHOW' do
+    it 'responds with 200' do
+      create_post('Hello, World!')
+      get :show, params: { id: 1 }
+      expect(response).to have_http_status(200)
     end
 
+    it 'returns json with post data' do
+      create_post('Hello, World!')
+      get :show, params: { id: 1 }
+      json = JSON.parse(response.body)
+      expect(json["id"]).to eq(1)
+      expect(json["message"]).to eq('Hello, World!')
+      expect(json["user_id"]).to eq(1)
+    end
+  end
+
+  describe 'UPDATE Posts' do
     context 'within 10 minutes of creation' do
       it 'can edit own post' do
         create_post('Hello, world!')
@@ -97,15 +99,14 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         new_post_id = new_post.id
         sign_out @user
         sign_in @user_2
-        expect {
-          patch :update,
-          params: { post: { message: 'Hello, Aliens!' }, id: new_post_id }
-        }.to raise_error("Cannot edit another user's post")
+        patch :update,
+              params: { post: { message: 'Hello, Aliens!' }, id: new_post_id }
+        expect(response.body).to eq("Cannot edit another user's post")
       end
     end
 
     context 'after 10 minutes from creation' do
-      it 'cannot edit a post' do
+      xit 'cannot edit a post' do
         @future_time = Time.now + 601
         create_post('Hello, world!')
         allow(Time).to receive(:now).and_return(@future_time)
@@ -125,7 +126,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         delete :destroy, params: { id: new_post_id }
         expect(response).to have_http_status(204)
       end
-      
+
       it 'should delete own post' do
         create_post('Post by user 1 to be deleted')
         new_post = Post.find_by(message: 'Post by user 1 to be deleted')

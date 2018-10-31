@@ -7,30 +7,12 @@ module Api::V1
   class PostsController < ApplicationController
     def index
       @posts = Post.all.order('created_at DESC')
-      render json: @posts.as_json(
-        include: {
-          user: { only: :email },
-          comments: {
-            include: {
-              user: { only: :email }
-            }
-          }
-        }
-      )
+      render json: json_nest(@posts)
     end
 
     def show
       @post = Post.find(params[:id])
-      render json: @post
-    end
-
-    def edit
-      @post = Post.find(params[:id])
-      if !post_created_within_ten_minutes?
-        redirect_to posts_url, alert: 'Sorry! Too late to edit, be snappier next time'
-      else
-        @post
-      end
+      render json: json_nest(@post)
     end
 
     def create
@@ -43,34 +25,39 @@ module Api::V1
     end
 
     def update
-      @post = Post.find(params[:id])
-      raise "Cannot edit another user's post" unless
-        post_created_by_current_user?
-      @post.update(post_params) ? (redirect_to @post) : (render 'edit')
+      begin 
+        @post = Post.find(params[:id])
+
+        if post_created_by_current_user?
+          if @post.update(post_params)
+            head :no_content, status: :ok
+          else
+            render json: @post.errors, status: :unprocessable_entity 
+          end
+        else
+          render json: "Cannot edit another user's post", status: :unprocessable_entity
+        end
+      rescue ActiveRecord::RecordNotFound
+        render json: "Record not found", status: :unprocessable_entity
+      end
     end
 
     def destroy
       begin 
         @post = Post.find(params[:id])
 
-        if post_created_by_current_user? 
-          if @post.destroy 
+        if post_created_by_current_user?
+          if @post.destroy
             head :no_content, status: :ok
-          else 
+          else
             render json: @post.errors, status: :unprocessable_entity 
           end
-        else 
+        else
           render json: "Cannot delete another user's post", status: :unprocessable_entity
-        end 
+        end
       rescue ActiveRecord::RecordNotFound
         render json: "Record not found", status: :unprocessable_entity
       end
-
-
-#         raise("Cannot delete another user's post") unless
-# post_created_by_current_user?
-      # raise("Cannot delete another user's post") unless
-      #   post_created_by_current_user?
     end
 
     private
@@ -89,6 +76,19 @@ module Api::V1
 
     def post_created_within_ten_minutes?
       Time.current - @post.created_at <= 600
+    end
+
+    def json_nest(entity)
+      entity.as_json(
+        include: {
+          user: { only: :email },
+          comments: {
+            include: {
+              user: { only: :email }
+            }
+          }
+        }
+      )
     end
   end
 end
