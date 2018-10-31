@@ -24,10 +24,6 @@ module Api::V1
       render json: @post
     end
 
-    def new
-      @post = Post.new
-    end
-
     def edit
       @post = Post.find(params[:id])
       if !post_created_within_ten_minutes?
@@ -38,9 +34,12 @@ module Api::V1
     end
 
     def create
-      @post = Post.create(post_params.merge(user_id: current_user.id))
-
-      # redirect_to posts_url
+      @post = Post.new(post_params.merge(user_id: current_user.id))
+      if @post.save
+        render json: @post, status: :created
+      else
+        render json: @post.errors, status: :unprocessable_entity
+      end
     end
 
     def update

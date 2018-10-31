@@ -20,14 +20,37 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   end
 
   describe 'POST /' do
-    it 'responds with 200' do
-      create_post('Hello, world!')
-      expect(response).to redirect_to(posts_url)
+    context 'successful creation' do
+      it 'responds with 201' do
+        create_post('Hello, world!')
+        expect(response).to have_http_status(201)
+      end
+
+      it 'creates a post' do
+        create_post('Hello, world!')
+        expect(Post.find_by(message: 'Hello, world!')).to be
+      end
+
+      it 'should return new post as JSON' do
+        create_post('Hello, JSON!')
+        json = JSON.parse(response.body)
+        expect(json["id"]).to eq(1)
+        expect(json["message"]).to eq('Hello, JSON!')
+        expect(json["user_id"]).to eq(1)
+      end
     end
 
-    it 'creates a post' do
-      create_post('Hello, world!')
-      expect(Post.find_by(message: 'Hello, world!')).to be
+    context 'unsuccessful creation ' do
+      it 'responds with 422 when given empty message' do
+        create_post('')
+        expect(response).to have_http_status(422)
+      end
+
+      it "should return error message 'can't be blank'" do
+        create_post('')
+        json = JSON.parse(response.body)
+        expect(json["message"]).to include("can't be blank")
+      end
     end
   end
 
