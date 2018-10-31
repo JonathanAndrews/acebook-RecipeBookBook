@@ -19,7 +19,7 @@ class PostsContainer extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3001/api/v1/posts.json')
+    axios.get('http://localhost:3001/api/v1/posts')
     .then(response => {
       console.log(response)
       this.setState({
@@ -49,7 +49,7 @@ class PostsContainer extends Component {
 
 editPost(id, message) {
     axios.put( '/api/v1/posts/' + id, {
-        list: {
+        post: {
             message
         }
     })
@@ -80,9 +80,11 @@ editPost(id, message) {
   render() {
     return (
       <div className="Posts-container">
+
+        <NewPostForm onNewPost={this.addNewPost}/>
         {this.state.posts.map( post => {
           if (this.state.editingPost === post.id) {
-              return (<editingPostForm
+              return (<EditPostForm
                         post={post}
                         key={post.id}
                         editPost={this.editPost}
@@ -92,11 +94,10 @@ editPost(id, message) {
                 post={post}
                 key={post.id}
                 onRemovePost={this.removePost}
-                editingPost={this.editingPost}
+                editingPost={this.editPost}
               />)
             }
           })}
-          <NewPostForm onNewPost={this.addNewPost}/>
       </div>
     )
   }

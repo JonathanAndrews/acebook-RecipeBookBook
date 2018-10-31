@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { shallow } from 'enzyme';
 import  App from '../../App.js';
@@ -10,6 +11,7 @@ describe('should render title', () => {
     const component = shallow(<App/>);
     expect(component).toMatchSnapshot();
   });
+  
 
   it('should have title', () => {
     const component = shallow(<App/>);
