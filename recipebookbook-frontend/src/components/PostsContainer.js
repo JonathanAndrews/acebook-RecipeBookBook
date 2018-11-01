@@ -13,7 +13,7 @@ class PostsContainer extends Component {
       editingPostId: null
     }
     this.addNewPost = this.addNewPost.bind(this)
-    this.removePost = this.removePost.bind(this)
+    this.removePost = this.onRemovePost.bind(this)
     this.editingPost = this.editingPost.bind(this)
     this.editPost = this.editPost.bind(this)
   }
@@ -65,7 +65,7 @@ editPost(id, message) {
     .catch(error => console.log(error));
 }
 
-  removePost(id) {
+  onRemovePost(id) {
     axios.delete( '/api/v1/posts/' + id )
     .then(response => {
         const posts = this.state.posts.filter(

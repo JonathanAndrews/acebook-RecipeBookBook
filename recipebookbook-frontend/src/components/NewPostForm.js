@@ -11,10 +11,10 @@ const NewPostForm = ({onNewPost = f => f}) => {
 
     return (
         <form onSubmit={submit}>
-            <input  ref={input => message = input}
+            <input class='message' ref={input => message = input}
                     type="text"
                     placeholder="Message..." required />
-            <button>Add Post</button>
+            <button class='submess'>Add Post</button>
         </form>
     )
 }

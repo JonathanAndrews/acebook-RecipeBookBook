@@ -11,7 +11,7 @@ describe('should render title', () => {
     const component = shallow(<App/>);
     expect(component).toMatchSnapshot();
   });
-  
+
 
   it('should have title', () => {
     const component = shallow(<App/>);
@@ -28,5 +28,14 @@ describe('should render posts', () => {
       <PostContainer/>
     );
     expect(getSpy).toBeCalled();
+  })
+
+  it('can add post', () => {
+    const message = 'potato'
+    const component = shallow(<App/>);
+    var node = component.find('.message').setValue(message)
+    component.find('.submess').onClick()
+    const actual = component.find('.Posts-container').getText()
+    expect(actual).to.equal(message)
   })
 })
