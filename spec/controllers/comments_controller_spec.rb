@@ -20,10 +20,10 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       end
 
       it 'returns new comment json' do
-        create_comment('Helo json', @post.id)
+        create_comment('Hello json', @post.id)
         json = JSON.parse(response.body)
         expect(json["id"]).to eq(1)
-        expect(json["body"]).to eq("Helo json")
+        expect(json["body"]).to eq("Hello json")
         expect(json["user_id"]).to eq(1)
         expect(json["post_id"]).to eq(1)
       end
@@ -36,21 +36,20 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
   end
 
   describe 'DELETE Comments' do
-    xit 'validate route DELETE /posts/:id/comments/:id to comments#destroy' do
-      expect(delete: '/posts/1/comments/1').to route_to(
-        controller: 'comments',
-        action: 'destroy',
-        id: '1',
-        post_id: '1'
-      )
-    end
-
-    xit 'deletes a comment' do
+    it 'deletes a comment' do
       create_comment('Hello, potato!', @post.id)
       comment = Comment.find_by(body: "Hello, potato!")
       comment_id = comment.id
       delete :destroy, params: { post_id: @post.id, id: comment_id }
       expect(Comment.find_by(id: comment_id)).to be_nil
+    end
+
+    it 'responds with 204' do
+      create_comment('Hello, potato!', @post.id)
+      comment = Comment.find_by(body: 'Hello, potato!')
+      comment_id = comment.id
+      delete :destroy, params: { post_id: @post.id, id: comment_id }
+      expect(response).to have_http_status(204)
     end
   end
 
@@ -65,23 +64,25 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     end
   end
 
-  describe 'PATCH' do
-    xit 'updates comment' do
-      create_comment('Hello, potato!', @post.id)
-      comment = Comment.find_by(body: 'Hello, potato!')
-      new_body = 'Hello, orange!'
-      update_comment(new_body , @post.id, comment.id)
-      updated_comment = Comment.find_by(body: new_body )
-      expect(updated_comment.body).to eq(new_body)
-      expect(updated_comment.id).to eq(comment.id)
-    end
+  describe 'UPDATE PATCH' do
+    context 'successful update' do
+      it 'responds with 204' do
+        create_comment('Hello, potato!', @post.id)
+        comment = Comment.find_by(body: 'Hello, potato!')
+        new_body = 'Hello, orange!'
+        update_comment(new_body , @post.id, comment.id)
+        expect(response).to have_http_status(204)
+      end
 
-    xit 'redirects to posts_url after successful updating' do
-      create_comment('Hello, potato!', @post.id)
-      comment = Comment.find_by(body: 'Hello, potato!')
-      new_body = 'Hello, orange!'
-      update_comment(new_body , @post.id, comment.id)
-      expect(response).to redirect_to(posts_url)
+      it 'updates comment' do
+        create_comment('Hello, potato!', @post.id)
+        comment = Comment.find_by(body: 'Hello, potato!')
+        new_body = 'Hello, orange!'
+        update_comment(new_body , @post.id, comment.id)
+        updated_comment = Comment.find_by(body: new_body )
+        expect(updated_comment.body).to eq(new_body)
+        expect(updated_comment.id).to eq(comment.id)
+      end
     end
 
     xit 'redirects to edit after unsuccessful updating' do
