@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'helpers/post_helper_spec.rb'
 
-RSpec.describe PostsController, type: :controller do
+RSpec.describe Api::V1::PostsController, type: :controller do
   before(:each) do
     @user = build(:user)
     @user.confirm
@@ -12,41 +12,75 @@ RSpec.describe PostsController, type: :controller do
     @user_2.confirm
   end
 
-  describe 'GET posts/new ' do
-    it 'responds with 200' do
-      get :new
-      expect(response).to have_http_status(200)
+  describe 'CREATE Post' do
+    context 'successful creation' do
+      it 'responds with 201' do
+        create_post('Hello, world!')
+        expect(response).to have_http_status(201)
+      end
+
+      it 'creates a post' do
+        create_post('Hello, world!')
+        expect(Post.find_by(message: 'Hello, world!')).to be
+      end
+
+      it 'should return new post as JSON' do
+        create_post('Hello, JSON!')
+        json = JSON.parse(response.body)
+        expect(json["id"]).to eq(1)
+        expect(json["message"]).to eq('Hello, JSON!')
+        expect(json["user_id"]).to eq(1)
+      end
+    end
+
+    context 'unsuccessful creation ' do
+      it 'responds with 422 when given empty message' do
+        create_post('')
+        expect(response).to have_http_status(422)
+      end
+
+      it "should return error message 'can't be blank'" do
+        create_post('')
+        json = JSON.parse(response.body)
+        expect(json["message"]).to include("can't be blank")
+      end
     end
   end
 
-  describe 'POST /' do
-    it 'responds with 200' do
-      create_post('Hello, world!')
-      expect(response).to redirect_to(posts_url)
-    end
-
-    it 'creates a post' do
-      create_post('Hello, world!')
-      expect(Post.find_by(message: 'Hello, world!')).to be
-    end
-  end
-
-  describe 'GET /' do
+  describe 'GET INDEX' do
     it 'responds with 200' do
       get :index
       expect(response).to have_http_status(200)
     end
+
+    it 'returns json with posts data' do
+      create_post('Hello, World!')
+      get :index
+      json = JSON.parse(response.body)[0]
+      expect(json["id"]).to eq(1)
+      expect(json["message"]).to eq('Hello, World!')
+      expect(json["user_id"]).to eq(1)
+    end
   end
 
-  describe 'GET /posts/:id/edit' do
-    it 'routes /posts/1/edit to posts#edit' do
-      expect(get: '/posts/1/edit').to route_to(
-        controller: 'posts',
-        action: 'edit',
-        id: '1'
-      )
+  describe 'GET SHOW' do
+    it 'responds with 200' do
+      create_post('Hello, World!')
+      get :show, params: { id: 1 }
+      expect(response).to have_http_status(200)
     end
 
+    it 'returns json with post data' do
+      create_post('Hello, World!')
+      get :show, params: { id: 1 }
+      json = JSON.parse(response.body)
+      expect(json["id"]).to eq(1)
+      expect(json["message"]).to eq('Hello, World!')
+      expect(json["user_id"]).to eq(1)
+    end
+  end
+
+  describe 'UPDATE Posts' do
     context 'within 10 minutes of creation' do
       it 'can edit own post' do
         create_post('Hello, world!')
@@ -65,15 +99,14 @@ RSpec.describe PostsController, type: :controller do
         new_post_id = new_post.id
         sign_out @user
         sign_in @user_2
-        expect {
-          patch :update,
-          params: { post: { message: 'Hello, Aliens!' }, id: new_post_id }
-        }.to raise_error("Cannot edit another user's post")
+        patch :update,
+              params: { post: { message: 'Hello, Aliens!' }, id: new_post_id }
+        expect(response.body).to eq("Cannot edit another user's post")
       end
     end
 
     context 'after 10 minutes from creation' do
-      it 'cannot edit a post' do
+      xit 'cannot edit a post' do
         @future_time = Time.now + 601
         create_post('Hello, world!')
         allow(Time).to receive(:now).and_return(@future_time)
@@ -85,31 +118,47 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe 'DELETE Posts' do
-    it 'validate route DELETE /posts/:id to posts#destroy' do
-      expect(delete: "/posts/1").to route_to(
-        controller: "posts",
-        action: "destroy",
-        id: "1"
-      )
+    context 'successful delete' do
+      it 'responds with 204' do
+        create_post('Post by user 1 to be deleted')
+        new_post = Post.find_by(message: 'Post by user 1 to be deleted')
+        new_post_id = new_post.id
+        delete :destroy, params: { id: new_post_id }
+        expect(response).to have_http_status(204)
+      end
+
+      it 'should delete own post' do
+        create_post('Post by user 1 to be deleted')
+        new_post = Post.find_by(message: 'Post by user 1 to be deleted')
+        new_post_id = new_post.id
+        delete :destroy, params: { id: new_post_id }
+        expect(Post.find_by(id: new_post_id)).to be_nil
+      end
     end
 
-    it 'should delete own post' do
-      create_post('Post by user 1 to be deleted')
-      new_post = Post.find_by(message: 'Post by user 1 to be deleted')
-      new_post_id = new_post.id
-      delete :destroy, params: { id: new_post_id }
-      expect(Post.find_by(id: new_post_id)).to be_nil
-    end
+    context 'unsuccessful delete' do
+      it 'responds with 422 trying to delete a non-existant post' do
+        delete :destroy, params: { id: 999 }
+        expect(response).to have_http_status(422)
+      end
 
-    it "should not delete another user's post" do
-      create_post('Post by user 1 to be deleted')
-      new_post = Post.find_by(message: 'Post by user 1 to be deleted')
-      new_post_id = new_post.id
-      sign_out @user
-      sign_in @user_2
-      expect { delete :destroy, params: { id: new_post_id } }.to raise_error(
-        "Cannot delete another user's post"
-      )
+      xit 'line 59 of PostsController#destroy cannot be tested atm' do
+        render json: @post.errors, status: :unprocessable_entity 
+        "also need to test this whole method further"
+      end
+
+
+      it "should not delete another user's post" do
+        create_post('Post by user 1 to be deleted')
+        new_post = Post.find_by(message: 'Post by user 1 to be deleted')
+        new_post_id = new_post.id
+        sign_out @user
+        sign_in @user_2
+        delete :destroy, params: { id: new_post_id }
+        p response.body
+        json = response.body
+        expect(json).to eq("Cannot delete another user's post")
+      end
     end
   end
 end
