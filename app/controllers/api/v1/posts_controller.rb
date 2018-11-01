@@ -16,7 +16,8 @@ module Api::V1
     end
 
     def create
-      @post = Post.new(post_params.merge(user_id: current_user.id))
+      @post = Post.new(post_params.merge(user_id: 1))
+      # @post = Post.new(post_params.merge(user_id: current_user.id))
       if @post.save
         render json: @post, status: :created
       else
@@ -28,15 +29,15 @@ module Api::V1
       begin
         @post = Post.find(params[:id])
 
-        if post_created_by_current_user?
+        # if post_created_by_current_user?
           if @post.update(post_params)
             head :no_content, status: :ok
           else
             render json: @post.errors, status: :unprocessable_entity
           end
-        else
-          render json: "Cannot edit another user's post", status: :unprocessable_entity
-        end
+        # else
+        #   render json: "Cannot edit another user's post", status: :unprocessable_entity
+        # end
       rescue ActiveRecord::RecordNotFound
         render json: "Record not found", status: :unprocessable_entity
       end
@@ -46,15 +47,15 @@ module Api::V1
       begin
         @post = Post.find(params[:id])
 
-        if post_created_by_current_user?
+        # if post_created_by_current_user?
           if @post.destroy
             head :no_content, status: :ok
           else
             render json: @post.errors, status: :unprocessable_entity
           end
-        else
-          render json: "Cannot delete another user's post", status: :unprocessable_entity
-        end
+        # else
+        #   render json: "Cannot delete another user's post", status: :unprocessable_entity
+        # end
       rescue ActiveRecord::RecordNotFound
         render json: "Record not found", status: :unprocessable_entity
       end
