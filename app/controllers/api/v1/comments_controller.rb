@@ -11,31 +11,27 @@ module Api::V1
         render json: @comment.errors, status: :unprocessable_entity
       end
     end
-    
-    def edit
-      @comment = Comment.find(params[:id])
-    end
 
     def update
       @comment = Comment.find(params[:id])
 
-      if @comment.update(comment_params) 
+      if @comment.update(comment_params)
         head :no_content, status: :ok
       else
         render json: @comment.errors, status: :unprocessable_entity
       end
     end
-    
+
     def destroy
       @comment = Comment.find(params[:id])
 
       if @comment.destroy
         head :no_content, status: :ok
       else
-        render json: @comment.errors, status: :unprocessable_entity 
+        render json: @comment.errors, status: :unprocessable_entity
       end
     end
-    
+
     private
 
     def comment_params

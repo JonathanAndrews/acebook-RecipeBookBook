@@ -25,14 +25,14 @@ module Api::V1
     end
 
     def update
-      begin 
+      begin
         @post = Post.find(params[:id])
 
         if post_created_by_current_user?
           if @post.update(post_params)
             head :no_content, status: :ok
           else
-            render json: @post.errors, status: :unprocessable_entity 
+            render json: @post.errors, status: :unprocessable_entity
           end
         else
           render json: "Cannot edit another user's post", status: :unprocessable_entity
@@ -43,14 +43,14 @@ module Api::V1
     end
 
     def destroy
-      begin 
+      begin
         @post = Post.find(params[:id])
 
         if post_created_by_current_user?
           if @post.destroy
             head :no_content, status: :ok
           else
-            render json: @post.errors, status: :unprocessable_entity 
+            render json: @post.errors, status: :unprocessable_entity
           end
         else
           render json: "Cannot delete another user's post", status: :unprocessable_entity
@@ -65,10 +65,6 @@ module Api::V1
     def post_params
       params.require(:post).permit(:message, :user_id)
     end
-
-    # def can_edit_post?
-    #   post_created_by_current_user? && post_created_within_ten_minutes?
-    # end
 
     def post_created_by_current_user?
       @post.user_id === current_user.id

@@ -32,7 +32,10 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
         create_comment('Hello, world!', @post.id)
         expect(Comment.find_by(body: 'Hello, world!')).to be
       end
-    end 
+    end
+
+    context 'unsuccessful creation...' do 
+    end
   end
 
   describe 'DELETE Comments' do
@@ -51,16 +54,8 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       delete :destroy, params: { post_id: @post.id, id: comment_id }
       expect(response).to have_http_status(204)
     end
-  end
 
-  describe 'GET /posts/:id/comments/:id/edit' do
-    xit 'routes posts/1/comments/1/edit to comments#edit' do
-      expect(get: 'posts/1/comments/1/edit').to route_to(
-        controller: 'comments',
-        action: 'edit',
-        post_id: '1',
-        id: '1'
-      )
+    context 'unsuccessful delete...' do
     end
   end
 
@@ -85,11 +80,8 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       end
     end
 
-    xit 'redirects to edit after unsuccessful updating' do
-      create_comment('Hello, potato!', @post.id)
-      comment = Comment.find_by(body: 'Hello, potato!')
-      update_comment('' , @post.id, comment.id)
-      expect(response).to render_template('edit')
+    context 'unsuccessful update...' do
     end
+
   end
 end
