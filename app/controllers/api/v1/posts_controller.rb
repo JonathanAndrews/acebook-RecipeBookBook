@@ -16,11 +16,10 @@ module Api::V1
     end
 
     def create
-      @post = Post.new(post_params.merge(user_id: 2))
+      @post = Post.new(post_params.merge(user_id: 1))
       # @post = Post.new(post_params.merge(user_id: current_user.id))
       if @post.save
         @post = Post.find(@post.id)
-
         render json: json_nest(@post), status: :created
       else
         render json: @post.errors, status: :unprocessable_entity
