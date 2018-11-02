@@ -71,6 +71,7 @@ I can delete Posts and Comments.
 Install Dependencies and Setup Databases
 
 ```bash
+> git clone git@github.com:JonathanAndrews/acebook-RecipeBookBook.git
 > bundle install
 > bin/rails db:create
 > bin/rails db:migrate
