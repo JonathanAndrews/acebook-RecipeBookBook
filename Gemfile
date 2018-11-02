@@ -17,6 +17,8 @@ gem 'rails', '~> 5.1.1'
 gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
+# rack-cors for CORS options
+gem 'rack-cors', require: 'rack/cors'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 
@@ -34,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'foreman'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger
@@ -44,7 +47,7 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'database_cleaner'
-gem 'rails-controller-testing'
+  gem 'rails-controller-testing'
 
 
   gem 'rspec-rails', '~> 3.5'
