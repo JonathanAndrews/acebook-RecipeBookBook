@@ -46,8 +46,6 @@ module Api::V1
 
     def destroy
       begin
-        puts 'deleting post ruby'
-        p params
         @post = Post.find(params[:id])
 
         # if post_created_by_current_user?
@@ -69,10 +67,6 @@ module Api::V1
     def post_params
       params.require(:post).permit(:message, :user_id)
     end
-
-    # def can_edit_post?
-    #   post_created_by_current_user? && post_created_within_ten_minutes?
-    # end
 
     def post_created_by_current_user?
       @post.user_id === current_user.id

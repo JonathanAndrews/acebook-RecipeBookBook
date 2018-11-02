@@ -1,0 +1,47 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "post": {
+        "message": "jh"
+      },
+      "apiId": "v1",
+      "id": 2
+    },
+    {
+      "post": {
+        "message": "dsafdsff"
+      },
+      "apiId": "v1",
+      "id": 3
+    },
+    {
+      "post": {
+        "message": "jamie"
+      },
+      "apiId": "v1",
+      "id": 4
+    },
+    {
+      "post": {
+        "message": "asdfsf"
+      },
+      "apiId": "v1",
+      "id": 5
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
