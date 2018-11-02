@@ -68,13 +68,13 @@ module Api::V1
       params.require(:post).permit(:message, :user_id)
     end
 
-    def post_created_by_current_user?
-      @post.user_id === current_user.id
-    end
+    # def post_created_by_current_user?
+    #   @post.user_id === current_user.id
+    # end
 
-    def post_created_within_ten_minutes?
-      Time.current - @post.created_at <= 600
-    end
+    # def post_created_within_ten_minutes?
+    #   Time.current - @post.created_at <= 600
+    # end
 
     def json_nest(entity)
       entity.as_json(

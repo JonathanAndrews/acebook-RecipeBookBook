@@ -103,6 +103,22 @@ RSpec.describe Api::V1::PostsController, type: :controller do
               params: { post: { message: 'Hello, Aliens!' }, id: new_post_id }
         expect(response.body).to eq("Cannot edit another user's post")
       end
+
+      it 'responds with 422 trying to update a non-existant post' do
+        patch :update,
+              params: { post: { message: 'Hello, Aliens!' }, id: 9_999_999 }
+        expect(response).to have_http_status(422)
+      end
+
+      # it 'responds with 422 failing to update a post in the database' do
+      #   create_post('Hello, world!')
+      #   new_post = Post.find_by(message: 'Hello, world!')
+      #   new_post_id = new_post.id
+      #   new_message = 'Hello, Aliens!'
+      #   allow(Post).to receive(:update).and_return(false)
+      #   patch :update, params: { post: { message: new_message }, id: new_post_id }
+      #   expect(response).to have_http_status(422)
+      # end
     end
 
     context 'after 10 minutes from creation' do
