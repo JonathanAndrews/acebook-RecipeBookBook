@@ -1,6 +1,6 @@
 # RecipeBookBook
 
-This is a facebook clone that was developed by four developers over two weeks.
+This is a facebook clone that was developed by four awesome developers over two weeks.
 
 ## Motivation
 
@@ -15,7 +15,7 @@ The overall goal of this project was to improve our Agile Development practices.
 ## Tech used
 
 ### Core Stack
-- erb - Front End
+- React - Front End
 - Rails - Back End
   - devise - User Authentication
   - Action Mailer - Email Confirmation
@@ -30,7 +30,7 @@ The overall goal of this project was to improve our Agile Development practices.
 - RSpec - Unit Testing
   - Factory Bot - Doubling and Mocking
   - Database Cleaner - Clean database after each test
-- Capybara/RSpec - Feature Testing
+- Jest/Enzyme - Testing react components
 - SimpleCov - Test Coverage
 - RuboCop - Linter
 
@@ -66,7 +66,7 @@ So that I can remove evidence of drunkness,
 I can delete Posts and Comments.
 
 ```
-## Local Development
+## Local Development for Rails API
 
 Install Dependencies and Setup Databases
 
@@ -80,7 +80,24 @@ Run Tests and Server
 
 ```bash
 > bundle exec rspec # Run the tests to ensure it works
-> bin/rails server # Start the server at localhost:3000
+> bin/rails server -p 3001 # Start the server at localhost:3001
+```
+
+## Local Development for React front-end 
+
+To run the react server open up another terminal
+
+Install dependencies
+```bash
+> cd recipebookbook-frontend
+> npm install
+```
+
+Run Tests and Server
+
+```bash
+> npm test
+> npm start
 ```
 
 ## Contributing to the Project
